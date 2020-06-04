@@ -2,8 +2,70 @@
 {{#each profile}}
 	<p>(to edit something, simply edit the box)</p>
 	<h2 id="username">{{username}}</h2>
+	<!-- change pscode -->
+	<form action="/" method='post'>
 	<label for="password">Password (at least 7 characters long):</label>
-	<input type="password" id="name" name="name" required minlength="7" size="28"></input>
+	<input type="password" id="passcode" name="pass_code" required minlength="7" size="28"></input>
+	</form>
+	<br>
+	<form action="/delete_update.php" method='post'></form>
+	<input type="submit" value="Change password">
+	
+	<br>
+
+	<br>
+	<br>
+	<!-- delete the current user -->
+	<h>Delete your account:</p>
+	<form action="/delete_update.php" method='post'>
+	<input type="submit" value="Delete account">
+	</form>
+	<!--<button onclick="myDelete()" type="button"> Delete </button>-->
+	<script>
+		var mysql1 = require('mysql');
+
+		var con = mysql.createConnection({
+				host: "classmysql.engr.oregonstate.edu",
+				user: "cs340_xuy6",
+				password: "2849",
+				database: "cs340_xuy6"
+		});
+		
+		
+		function myUpdate() {
+			con.connect(function (err) {
+				if (err) throw err;
+				var sql = "UPDATE user SET passcode =";
+				var pass = document.getElementById('passcode');
+				sql += pass;
+				var where = "WHERE username =";
+				sql += where;
+				var user_name = {{username}};
+				sql += user_name;
+				con.query(sql, function (err, result) {
+					if (err) throw err;
+					console.log(result.affectedRows + " record(s) updated");
+				});
+			});
+		}
+		/***
+		function myDelete() {
+			con.connect(function (err) {
+				if (err) throw err;
+				var sql = "DELETE FROM user WHERE username =";
+				var user_name = {{username}};
+				sql += user_name
+				con.query(sql, function (err, result) {
+					if (err) throw err;
+					console.log("Number of records deleted: " + result.affectedRows);
+					return res.redirect('../');
+				});
+			});
+		}
+		***/
+	</script>
+
+
 
 	<h2>Optional Address:</h2>
 
